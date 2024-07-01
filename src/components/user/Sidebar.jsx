@@ -1,11 +1,23 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { server } from "../../constants";
 
 function Sidebar(props) {
+  const [userData, setUserData] = useState({});
+  // console.log(userData)
   const navigate = useNavigate();
-  
+
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await axios
+        .get(`${server}/users/current-user`, { withCredentials: true })
+        .then((res) => res.data);
+      setUserData(user.data);
+    }
+    fetchUser();
+  }, []);
+
   async function handleClick() {
     await axios.post(`${server}/users/logout`, {}, { withCredentials: true });
     navigate("/login");
@@ -27,7 +39,10 @@ function Sidebar(props) {
       <Link to="/user/profile" onClick={() => props.toggleMenu()}>
         view profile
       </Link>
-      <Link to="/user/channel-profile" onClick={() => props.toggleMenu()}>
+      <Link
+        to={`/user/channel-profile/${userData._id}`}
+        onClick={() => props.toggleMenu()}
+      >
         channel profile
       </Link>
       <Link to="/user/videos" onClick={() => props.toggleMenu()}>
@@ -47,7 +62,7 @@ function Sidebar(props) {
       </Link>
       <hr style={{ opacity: ".2" }} />
       <Link onClick={handleClick}>
-        <img src="/icons8-logout-30.png" alt="" />
+        <img src="/icons8-logout-30.webp" alt="" />
         logout
       </Link>
     </div>

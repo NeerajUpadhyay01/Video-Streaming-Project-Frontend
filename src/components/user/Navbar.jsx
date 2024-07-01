@@ -1,8 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
+import axios from "axios";
+import { server } from "../../constants";
 
 function Navbar(props) {
   const [searchdata, setSearchData] = useState("");
+  const [avatar, setAvatar] = useState(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const response = await axios
+        .get(`${server}/users/current-user`, { withCredentials: true })
+        .then((res) => res.data);
+      setAvatar(response.data.avatar);
+    }
+    fetchUser();
+  }, []);
 
   function handleChange(e) {
     setSearchData((prevData) => {
@@ -16,7 +29,7 @@ function Navbar(props) {
 
   return (
     <div className="Navbar">
-      <img id="app-logo" src="/icons8-video-100.png" alt="app-logo" />
+      <img id="app-logo" src="/icons8-video-100.webp" alt="app-logo" />
       <form action="" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -29,14 +42,14 @@ function Navbar(props) {
         <button>
           <img
             id="search-logo"
-            src="/icons8-search-200.png"
+            src="/icons8-search-200.webp"
             alt="search-logo"
           />
         </button>
       </form>
       <img
         id="avatar"
-        src="/icons8-avatar-48.png"
+        src={avatar}
         alt="avatar"
         onClick={() => props.toggleMenu()}
       />

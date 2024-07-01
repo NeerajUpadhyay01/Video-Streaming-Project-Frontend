@@ -20,7 +20,7 @@ function UserProfile() {
         .get(`${server}/users/current-user`, { withCredentials: true })
         .then((res) => res.data);
       // console.log(response);
-      
+
       if (response.success === true) {
         setData((prevData) => {
           return {
@@ -91,12 +91,14 @@ function UserProfile() {
     const formData = new FormData();
     formData.append("avatar", data.avatar);
 
-    const response = await axios.patch(`${server}/users/avatar`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      withCredentials: true,
-    }).then(res=>res.data);
+    const response = await axios
+      .patch(`${server}/users/avatar`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      })
+      .then((res) => res.data);
 
     if (response.success === true) {
       setData((prevData) => {
@@ -137,7 +139,7 @@ function UserProfile() {
           <div className="user_details">
             <h2>{data.fullname}</h2>
             <p id="username">
-              <img src="/icons8-username-48.png" alt="" />
+              <img src="/icons8-username-48.webp" alt="" />
               {data.username}
             </p>
             <p id="bio">{data.bio}</p>
