@@ -14,7 +14,7 @@ function Register() {
     bio:"",
     // isRegistered: false,
   });
-  console.log(data);
+  // console.log(data);
 
   const navigate = useNavigate();
 
