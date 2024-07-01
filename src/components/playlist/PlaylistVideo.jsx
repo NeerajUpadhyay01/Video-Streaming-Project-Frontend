@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { server } from "../../constants";
 
 function PlaylistVideo(props) {
   // console.log(props)
@@ -21,6 +23,11 @@ function PlaylistVideo(props) {
   };
 
   function handleClick() {
+    axios.post(
+      `${server}/users/history/add/${props.video._id}`,
+      {},
+      { withCredentials: true }
+    );
     navigate(`/user/videos/${props.video._id}`);
   }
 
@@ -35,7 +42,8 @@ function PlaylistVideo(props) {
   return (
     <div className="playlistVideo" onClick={handleClick}>
       <video
-        controls
+        muted
+        // controls
         ref={videoRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

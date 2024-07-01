@@ -5,28 +5,27 @@ import { server } from "../../constants";
 
 function History() {
   const [data, setData] = useState([]);
-  // console.log(data)
+  // console.log(data);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(
-          `${server}/users/history`,{withCredentials:true}
-        );
+        const response = await axios.get(`${server}/users/history`, {
+          withCredentials: true,
+        }).then(res => res.data);
         setData(response.data);
       } catch (error) {
         console.log(error);
       }
     }
     fetchData();
-  }, [data]);
+  },[]);
 
-  // console.log(data)
   return (
     <div className="history">
-      {/* {data.map((data) => {
-        <Video key={data._id} data={data} />;
-      })} */}
+      {data.map((video) => {
+        return <Video key={video._id} video={video} />;
+      })}
     </div>
   );
 }

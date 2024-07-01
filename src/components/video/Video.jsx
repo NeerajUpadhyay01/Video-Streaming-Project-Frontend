@@ -45,7 +45,13 @@ function Video(props) {
   }${day}`;
 
   const navigate = useNavigate();
+
   const handleClick = () => {
+    axios.post(
+      `${server}/users/history/add/${props.video._id}`,
+      {},
+      { withCredentials: true }
+    );
     navigate(`/user/videos/${props.video._id}`);
   };
 
