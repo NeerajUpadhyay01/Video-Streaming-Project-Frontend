@@ -15,6 +15,10 @@ function Tweet(props) {
     props.deleteTweet(props.item._id)
   }
 
+  function handleClick(){
+    props.toggelTweetLike(props.item._id);
+  }
+
   return (
     <div className="tweet">
       <div id="avatar">
@@ -22,8 +26,16 @@ function Tweet(props) {
       </div>
       <div className="tweet-content">
         <span>
-          <p>{props.data.username}</p>
+          <p>@{props.data.username}</p>
           <div className="tweet-icons">
+            <span>
+              <img
+                onClick={handleClick}
+                src="/icons8-like-48 (1).png"
+                alt=""
+              />
+              <p>{props.item.likes}</p>
+            </span>
             <Link to={`/user/tweets/edit-tweet/${props.item._id}`}>
               <img src="/icons8-edit-48.png" alt="" />
             </Link>

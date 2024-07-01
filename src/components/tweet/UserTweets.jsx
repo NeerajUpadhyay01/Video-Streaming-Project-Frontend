@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Tweet from "./Tweet";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../constants";
 
 function UserTweets() {
   const [data, setData] = useState([]);
-
-  const navigate= useNavigate()
+  const [refreshTweets,setRefreshTweets] =useState(false)
+  // console.log(data)
 
   useEffect(() => {
     async function fetchTweets() {
@@ -20,28 +20,42 @@ function UserTweets() {
       const tweetsResponse = await axios.get(
         `${server}/tweets/user/${currentUser._id}`,
         { withCredentials: true }
-      );
-      const tweets = tweetsResponse.data.data;
-      // console.log(tweets);
+      ).then(res=>res.data);
+      // console.log(tweetsResponse);
 
-      setData(tweets);
+      setData(tweetsResponse.data);
     }
     fetchTweets();
-  }, [data.tweets]);
+  }, [refreshTweets]);
 
     const deleteTweet = async (tweetId) => {
       // console.log(tweetId);
-      await axios
+      const response=await axios
         .delete(`${server}/tweets/${tweetId}`, { withCredentials: true })
         .then((res) => res.data);
-      navigate("/user/tweets");
+        if(response.success===true){
+          setRefreshTweets(!refreshTweets)
+        }
     };
+
+    async function toggelTweetLike(tweetId) {
+      const response = await axios
+        .post(
+          `${server}/likes/toggle/t/${tweetId}`,
+          {},
+          { withCredentials: true }
+        )
+        .then((res) => res.data);
+      if (response.success === true) {
+        setRefreshTweets(!refreshTweets);
+      }
+    }
 
   return (
     <div className="userTweets">
       <div id="tweets">
         {data.tweets?.map(item => {
-          return <Tweet key={item._id} data={data} item={item} deleteTweet={deleteTweet}/>;
+          return <Tweet key={item._id} data={data} item={item} deleteTweet={deleteTweet} toggelTweetLike={toggelTweetLike}/>;
         })}
       </div>
       <div id="addButton">
