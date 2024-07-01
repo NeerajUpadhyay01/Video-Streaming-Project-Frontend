@@ -11,18 +11,18 @@ function VideoDetail() {
   const [features, setFeatures] = useState({
     isSubscribed: videoData.isSubscribed,
     isVideoLiked: false,
-    isCommentLiked:false,
+    isCommentLiked: false,
     isSaved: false,
-    isFocused:false
+    isFocused: false,
   });
   const [commentData, setCommentData] = useState({
     comment: "",
     comments: [],
   });
-   const [refreshComments, setRefreshComments] = useState(false);
-   const [otherVideos,setOtherVideos] = useState([]);
+  const [refreshComments, setRefreshComments] = useState(false);
+  const [otherVideos, setOtherVideos] = useState([]);
   // console.log(commentData.comments)
-    // console.log(videoData);
+  // console.log(videoData);
   //   console.log(features)
   // console.log(otherVideos)
 
@@ -35,7 +35,7 @@ function VideoDetail() {
       setVideoData(response.data[0]);
     }
     fetchVideo();
-  }, [videoId, features.isSubscribed,features.isVideoLiked]);
+  }, [videoId, features.isSubscribed, features.isVideoLiked]);
 
   useEffect(() => {
     async function fetchVideoComments() {
@@ -49,16 +49,18 @@ function VideoDetail() {
     fetchVideoComments();
   }, [videoId, refreshComments, features.isCommentLiked]);
 
-  useEffect(()=>{
-    async function fetchVideos(){
-      const response=await axios.get(`${server}/videos/otherVideos`,{withCredentials:true}).then(res=>res.data)
+  useEffect(() => {
+    async function fetchVideos() {
+      const response = await axios
+        .get(`${server}/videos/otherVideos`, { withCredentials: true })
+        .then((res) => res.data);
       // console.log(response)
-      if(response.success===true){
-        setOtherVideos(response.data)
+      if (response.success === true) {
+        setOtherVideos(response.data);
       }
     }
-    fetchVideos()
-  },[videoId])
+    fetchVideos();
+  }, [videoId]);
 
   const createdAtDate = new Date(videoData.createdAt);
   const year = createdAtDate.getFullYear();
@@ -92,11 +94,11 @@ function VideoDetail() {
         { withCredentials: true }
       )
       .then((res) => res.data);
-      if (response.success === true) {
-        setFeatures((prevData) => {
-          return { ...prevData, isVideoLiked: !features.isVideoLiked };
-        });
-      }
+    if (response.success === true) {
+      setFeatures((prevData) => {
+        return { ...prevData, isVideoLiked: !features.isVideoLiked };
+      });
+    }
   }
 
   async function saveToPlaylist() {
@@ -108,19 +110,19 @@ function VideoDetail() {
     // }
   }
 
-  function cancelInput(){
-    setCommentData(prevData=>{
-        return {...prevData,comment:""}
-    })
-    setFeatures(prevData=>{
-        return {...prevData,isFocused:!features.isFocused}
-    })
+  function cancelInput() {
+    setCommentData((prevData) => {
+      return { ...prevData, comment: "" };
+    });
+    setFeatures((prevData) => {
+      return { ...prevData, isFocused: !features.isFocused };
+    });
   }
-  
-  function handleFocus(){
-    setFeatures(prevData=>{
-        return {...prevData, isFocused:true}
-    })
+
+  function handleFocus() {
+    setFeatures((prevData) => {
+      return { ...prevData, isFocused: true };
+    });
   }
 
   function handleChange(e) {
@@ -132,24 +134,24 @@ function VideoDetail() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if(commentData.comment!==""){
-        const response = await axios
-          .post(
-            `${server}/comments/${videoData._id}`,
-            {
-              content: commentData.comment.trim(),
-            },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => res.data);
-        // console.log(response)
+    if (commentData.comment !== "") {
+      const response = await axios
+        .post(
+          `${server}/comments/${videoData._id}`,
+          {
+            content: commentData.comment.trim(),
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => res.data);
+      // console.log(response)
 
-        if (response.success === true) {
-          setRefreshComments((prev) => !prev);
-          cancelInput();
-        }
+      if (response.success === true) {
+        setRefreshComments((prev) => !prev);
+        cancelInput();
+      }
     }
   }
 
@@ -173,7 +175,7 @@ function VideoDetail() {
                 <span id="username">
                   <h3>{videoData.owner.fullname}</h3>
                   <span>
-                    <img src="/icons8-username-48.png" alt="" />
+                    <img src="/icons8-username-48.webp" alt="" />
                     {videoData.owner.username}
                   </span>
                 </span>
@@ -185,17 +187,17 @@ function VideoDetail() {
               </button>
               <button id="like">
                 <img
-                  src="/icons8-like-48 (1).png"
+                  src="/icons8-like-48 (1).webp"
                   alt=""
                   onClick={toggelVideoLike}
                 />
                 {videoData.likes}
                 {/* <p>|</p> */}
-                {/* <img src="/icons8-dislike-48.png" alt="" onClick={decreaseLikes}/> */}
+                {/* <img src="/icons8-dislike-48.webp" alt="" onClick={decreaseLikes}/> */}
               </button>
               <button id="save">
                 <img
-                  src="/icons8-save-48.png"
+                  src="/icons8-save-48.webp"
                   alt=""
                   onClick={saveToPlaylist}
                 />
@@ -217,25 +219,34 @@ function VideoDetail() {
               required
               autoComplete="off"
             />
-            {features.isFocused && <span>
-              <button type="submit">
-                <img src="/icons8-right-48.png" alt="" />
-              </button>
-              <button id="cancel" type="button" onClick={cancelInput}>
-                cancel
-              </button>
-            </span>}
+            {features.isFocused && (
+              <span>
+                <button type="submit">
+                  <img src="/icons8-right-48.webp" alt="" />
+                </button>
+                <button id="cancel" type="button" onClick={cancelInput}>
+                  cancel
+                </button>
+              </span>
+            )}
           </form>
           <div className="comments">
-              {commentData.comments.map(comment=>{
-                return <Comment comment={comment} key={comment._id} features={features} setFeatures={setFeatures}/>
-              })}
+            {commentData.comments.map((comment) => {
+              return (
+                <Comment
+                  comment={comment}
+                  key={comment._id}
+                  features={features}
+                  setFeatures={setFeatures}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
       <div className="otherVideos">
-        {otherVideos.map(video=>{
-          return <PlaylistVideo key={video._id} video={video} />
+        {otherVideos.map((video) => {
+          return <PlaylistVideo key={video._id} video={video} />;
         })}
       </div>
     </div>

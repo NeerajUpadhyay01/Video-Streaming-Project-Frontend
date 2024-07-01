@@ -5,40 +5,52 @@ import axios from "axios";
 import { server } from "../../constants";
 
 function UserPlaylists() {
-  const [playlistData,setPlaylistData]=useState([]);
+  const [playlistData, setPlaylistData] = useState([]);
   const [userData, setUserData] = useState({});
   const [refreshPlaylists, setRefreshPlaylists] = useState(false);
   // console.log(userData.data)
   // console.log(playlistData)
 
-
-  useEffect(()=>{
-    async function fetchPlaylists(){
-      const user=await axios.get(`${server}/users/current-user`,{withCredentials:true}).then(res=>res.data)
-      setUserData(user)
+  useEffect(() => {
+    async function fetchPlaylists() {
+      const user = await axios
+        .get(`${server}/users/current-user`, { withCredentials: true })
+        .then((res) => res.data);
+      setUserData(user);
       // console.log(user)
-      const response=await axios.get(`${server}/playlist/user/${user.data._id}`,{withCredentials:true}).then(res=>res.data);
+      const response = await axios
+        .get(`${server}/playlist/user/${user.data._id}`, {
+          withCredentials: true,
+        })
+        .then((res) => res.data);
       // console.log(response.data);
 
       setPlaylistData(response.data);
     }
     fetchPlaylists();
-  },[refreshPlaylists])
+  }, [refreshPlaylists]);
 
-  function refresh(){
-    setRefreshPlaylists(!refreshPlaylists)
+  function refresh() {
+    setRefreshPlaylists(!refreshPlaylists);
   }
-  
+
   return (
     <div className="userPlaylists">
       <div id="playlists">
-        {playlistData.map(playlist => {
-          return <Playlist key={playlist._id} playlist={playlist} username={userData.data.username} refresh={refresh}/>
+        {playlistData.map((playlist) => {
+          return (
+            <Playlist
+              key={playlist._id}
+              playlist={playlist}
+              username={userData.data.username}
+              refresh={refresh}
+            />
+          );
         })}
       </div>
       <div id="addButton">
         <Link to="/user/playlists/create-playlist">
-          <img src="/icons8-plus-64.png" alt="" />
+          <img src="/icons8-plus-64.webp" alt="" />
         </Link>
       </div>
     </div>

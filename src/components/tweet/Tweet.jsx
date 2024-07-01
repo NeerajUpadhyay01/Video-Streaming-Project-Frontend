@@ -9,13 +9,14 @@ function Tweet(props) {
   const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
   const day = createdAtDate.getDate();
   const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""}${day}`;
+    day < 10 ? "0" : ""
+  }${day}`;
 
-  function handelDelete(){
-    props.deleteTweet(props.item._id)
+  function handelDelete() {
+    props.deleteTweet(props.item._id);
   }
 
-  function handleClick(){
+  function handleClick() {
     props.toggelTweetLike(props.item._id);
   }
 
@@ -31,15 +32,15 @@ function Tweet(props) {
             <span>
               <img
                 onClick={handleClick}
-                src="/icons8-like-48 (1).png"
+                src="/icons8-like-48 (1).webp"
                 alt=""
               />
               <p>{props.item.likes}</p>
             </span>
             <Link to={`/user/tweets/edit-tweet/${props.item._id}`}>
-              <img src="/icons8-edit-48.png" alt="" />
+              <img src="/icons8-edit-48.webp" alt="" />
             </Link>
-            <img onClick={handelDelete} src="/icons8-delete-48.png" alt="" />
+            <img onClick={handelDelete} src="/icons8-delete-48.webp" alt="" />
           </div>
         </span>
         <p>{props.item.content}</p>

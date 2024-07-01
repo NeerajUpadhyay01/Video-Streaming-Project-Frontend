@@ -5,7 +5,7 @@ function PlaylistVideo(props) {
   // console.log(props)
   const videoRef = useRef(null);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     if (videoRef.current) {
@@ -20,7 +20,7 @@ function PlaylistVideo(props) {
     }
   };
 
-  function handleClick(){
+  function handleClick() {
     navigate(`/user/videos/${props.video._id}`);
   }
 
@@ -46,11 +46,9 @@ function PlaylistVideo(props) {
 
       <div className="details">
         <div>
-          <div id="title">
-            {props.video.title}
-          </div>
+          <div id="title">{props.video.title}</div>
           <span id="username">
-            <img src="/icons8-username-48.png" alt="" />
+            <img src="/icons8-username-48.webp" alt="" />
             {props.video.owner.username}
           </span>
           <div>

@@ -2,8 +2,8 @@ import axios from "axios";
 import React from "react";
 import { server } from "../../constants";
 
-function Comment({comment,features,setFeatures}) {
-    // console.log(comment)
+function Comment({ comment, features, setFeatures }) {
+  // console.log(comment)
   const createdAtDate = new Date(comment.createdAt);
   const year = createdAtDate.getFullYear();
   const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
@@ -40,7 +40,7 @@ function Comment({comment,features,setFeatures}) {
       </div>
       <button onClick={toggelCommentLike}>
         <img
-          src="/icons8-like-48 (1).png"
+          src="/icons8-like-48 (1).webp"
           alt=""
           //   onClick={toggelLike}
         />

@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { server } from "../../constants";
 
 function Video(props) {
-  const [currentUser,setCurrentUser] =useState([])
+  const [currentUser, setCurrentUser] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  const [ishide,setIshide]=useState(false)
+  const [ishide, setIshide] = useState(false);
   const videoRef = useRef(null);
 
   // console.log(props.video);
@@ -21,12 +21,11 @@ function Video(props) {
     CurrentUser();
   }, []);
 
-
   const handleMouseEnter = () => {
     if (videoRef.current) {
       videoRef.current.play();
     }
-    setIshide(true)
+    setIshide(true);
   };
 
   const handleMouseLeave = () => {
@@ -94,7 +93,7 @@ function Video(props) {
           <div id="title">{props.video.title}</div>
           <div>
             <span id="owner">
-              {props.video.owner.username} - {props.video.views} views - 
+              {props.video.owner.username} - {props.video.views} views -
               {formattedDate}
             </span>
           </div>
@@ -102,18 +101,18 @@ function Video(props) {
         <img
           id="menuIcon"
           onClick={handleClickMenu}
-          src="/icons8-menu-48.png"
+          src="/icons8-menu-48.webp"
           alt=""
         />
         <div className={`video_operations ${isActive ? "active" : ""}`}>
           <span>
-            <img src="/icons8-edit-48.png" alt="" />
+            <img src="/icons8-edit-48.webp" alt="" />
             <Link to={`/user/videos/update-video/videoId`}>
               <p>edit</p>
             </Link>
           </span>
           <span>
-            <img src="/icons8-delete-48.png" alt="" />
+            <img src="/icons8-delete-48.webp" alt="" />
             <p onClick={deletevideo}>delete</p>
           </span>
         </div>
