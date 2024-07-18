@@ -29,7 +29,7 @@ function Navbar(props) {
 
   return (
     <div className="Navbar">
-      <img id="app-logo" src="/icons8-video-100.webp" alt="app-logo" />
+      <img id="app-logo" src="/Designer (4).webp" alt="app-logo" />
       <form action="" onSubmit={handleSubmit}>
         <input
           type="text"

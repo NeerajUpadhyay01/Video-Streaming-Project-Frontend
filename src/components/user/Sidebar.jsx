@@ -20,7 +20,7 @@ function Sidebar(props) {
 
   async function handleClick() {
     await axios.post(`${server}/users/logout`, {}, { withCredentials: true });
-    navigate("/login");
+    navigate("/");
   }
   return (
     <div className={`sidebar ${props.isOpen ? "active" : ""}`}>

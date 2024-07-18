@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { server } from "../../constants";
 import { useNavigate } from "react-router-dom";
 
-function CreatePlaylist() {
+function CreatePlaylist(props) {
+  // console.log(props)
   const [data, setData] = useState({
     name: "",
     description:""
@@ -34,9 +35,12 @@ function CreatePlaylist() {
       .then((res) => res.data);
     // console.log(response);
     if (response.success===true) {
-      navigate("/user/playlists");
+      {(!props.location) && navigate("/user/playlists")}
     }
+    props.refresh()
+    props.handleClick()
   }
+
   return (
     <div className="formContainer">
       <form onSubmit={handleSubmit} className="playlistForm">

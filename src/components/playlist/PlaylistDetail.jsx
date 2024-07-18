@@ -7,7 +7,9 @@ import PlaylistVideo from "./PlaylistVideo";
 function PlaylistDetail() {
   const { playlistId } = useParams();
   const [playlistData, setPlaylistData] = useState({});
-  // console.log(playlistData)
+  const [refresh, setRefresh] = useState(false);
+
+  const location =  "playlistDetail"
 
   useEffect(() => {
     async function fetchPlaylist() {
@@ -20,7 +22,7 @@ function PlaylistDetail() {
       }
     }
     fetchPlaylist();
-  }, []);
+  }, [refresh]);
 
   const createdAtDate = new Date(playlistData.createdAt);
   const year = createdAtDate.getFullYear();
@@ -29,6 +31,16 @@ function PlaylistDetail() {
   const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
     day < 10 ? "0" : ""
   }${day}`;
+
+  async function removeVideo(videoId){
+    const response = await axios.patch(`${server}/playlist/remove/${videoId}/${playlistId}`,{},{
+      withCredentials: true
+    }).then(res => res.data)
+    // console.log(response)
+    if(response.success === true){
+      setRefresh(!refresh)
+    }
+  }
 
   return (
     <div className="playlistDetail">
@@ -43,7 +55,7 @@ function PlaylistDetail() {
       </div>
       <div className="rightDiv">
         {playlistData.videos?.map((video) => {
-          return <PlaylistVideo key={video._id} video={video} />;
+          return <PlaylistVideo key={video._id} video={video} removeVideo={removeVideo} location={location}/>;
         })}
       </div>
     </div>

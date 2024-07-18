@@ -67,7 +67,7 @@ function Register() {
   }
 
   return (
-    <div className="formContainer">
+    <div className="formContainer register">
       <form className="registerForm" onSubmit={handelSubmit}>
         <input
           type="text"

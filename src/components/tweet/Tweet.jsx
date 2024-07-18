@@ -37,10 +37,10 @@ function Tweet(props) {
               />
               <p>{props.item.likes}</p>
             </span>
-            <Link to={`/user/tweets/edit-tweet/${props.item._id}`}>
+            {(props.location==="home") || (<><Link to={`/user/tweets/edit-tweet/${props.item._id}`}>
               <img src="/icons8-edit-48.webp" alt="" />
             </Link>
-            <img onClick={handelDelete} src="/icons8-delete-48.webp" alt="" />
+            <img onClick={handelDelete} src="/icons8-delete-48.webp" alt="" /></>)}
           </div>
         </span>
         <p>{props.item.content}</p>

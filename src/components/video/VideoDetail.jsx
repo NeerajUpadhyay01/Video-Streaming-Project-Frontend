@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { server } from "../../constants";
 import PlaylistVideo from "../playlist/PlaylistVideo.jsx";
 import Comment from "../comment/Comment.jsx";
@@ -18,6 +18,7 @@ function VideoDetail() {
   const [commentData, setCommentData] = useState({
     comment: "",
     comments: [],
+    commentToUpdateId: ""
   });
   const [refreshComments, setRefreshComments] = useState(false);
   const [otherVideos, setOtherVideos] = useState([]);
@@ -112,11 +113,20 @@ function VideoDetail() {
 
   function cancelInput() {
     setCommentData((prevData) => {
-      return { ...prevData, comment: "" };
+      return { ...prevData, comment: "", commentToUpdateId:"" };
     });
     setFeatures((prevData) => {
       return { ...prevData, isFocused: !features.isFocused };
     });
+  }
+
+  async function deleteComment(commentId) {
+    const response = await axios
+      .delete(`${server}/comments/c/${commentId}`, { withCredentials: true })
+      .then((res) => res.data);
+    if (response.success === true) {
+      setRefreshComments(!refreshComments);
+    }
   }
 
   function handleFocus() {
@@ -134,8 +144,9 @@ function VideoDetail() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    let response;
     if (commentData.comment !== "") {
-      const response = await axios
+      {(commentData.commentToUpdateId==="") ? ( response = await axios
         .post(
           `${server}/comments/${videoData._id}`,
           {
@@ -145,12 +156,22 @@ function VideoDetail() {
             withCredentials: true,
           }
         )
-        .then((res) => res.data);
+        .then((res) => res.data)) : ( response = await axios
+        .patch(
+          `${server}/comments/c/${commentData.commentToUpdateId}`,
+          {
+            content: commentData.comment.trim(),
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => res.data))}
       // console.log(response)
 
       if (response.success === true) {
-        setRefreshComments((prev) => !prev);
         cancelInput();
+        setRefreshComments(!refreshComments);
       }
     }
   }
@@ -195,14 +216,16 @@ function VideoDetail() {
                 {/* <p>|</p> */}
                 {/* <img src="/icons8-dislike-48.webp" alt="" onClick={decreaseLikes}/> */}
               </button>
-              <button id="save">
-                <img
-                  src="/icons8-save-48.webp"
-                  alt=""
-                  onClick={saveToPlaylist}
-                />
-                {!features.isSaved ? "save" : "saved"}
-              </button>
+              <Link to={`/user/playlists/${videoId}/select-playlist`}>
+                <button id="save">
+                  <img
+                    src="/icons8-save-48.webp"
+                    alt=""
+                    // onClick={saveToPlaylist}
+                  />
+                  {!features.isSaved ? "save" : "saved"}
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -237,7 +260,10 @@ function VideoDetail() {
                   comment={comment}
                   key={comment._id}
                   features={features}
+                  deleteComment={deleteComment}
                   setFeatures={setFeatures}
+                  setCommentData={setCommentData}
+                  handleFocus={handleFocus}
                 />
               );
             })}

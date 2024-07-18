@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { server } from "../../constants";
 
-function Comment({ comment, features, setFeatures }) {
+function Comment({ comment, features, setFeatures, deleteComment, setCommentData, handleFocus }) {
   // console.log(comment)
   const createdAtDate = new Date(comment.createdAt);
   const year = createdAtDate.getFullYear();
@@ -27,6 +27,22 @@ function Comment({ comment, features, setFeatures }) {
       });
     }
   }
+
+  function handleClick(){
+    handleFocus()
+    setCommentData((prevData) => {
+      return {
+        ...prevData,
+        comment: comment.content,
+        commentToUpdateId: comment._id,
+      };
+    });
+  }
+
+  function handelDelete() {
+    deleteComment(comment._id);
+  }
+
   return (
     <div className="comment">
       <img src={`${comment.owner.avatar}`} alt="" />
@@ -38,14 +54,18 @@ function Comment({ comment, features, setFeatures }) {
         </span>
         <p>{comment.content}</p>
       </div>
-      <button onClick={toggelCommentLike}>
-        <img
-          src="/icons8-like-48 (1).webp"
-          alt=""
-          //   onClick={toggelLike}
-        />
-        <p>{comment.likes}</p>
-      </button>
+      <div className="commentFeatures">
+        <span>
+          <img
+            src="/icons8-like-48 (1).webp"
+            alt=""
+            onClick={toggelCommentLike}
+          />
+          <p>{comment.likes}</p>
+        </span>
+        <img src="/icons8-edit-48.webp" alt="" onClick={handleClick}/>
+        <img onClick={handelDelete} src="/icons8-delete-48.webp" alt="" />
+      </div>
     </div>
   );
 }

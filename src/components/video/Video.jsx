@@ -112,8 +112,14 @@ function Video(props) {
         />
         <div className={`video_operations ${isActive ? "active" : ""}`}>
           <span>
+            <img src="/icons8-save-48.webp" alt="" />
+            <Link to={`/user/playlists/${props.video._id}/select-playlist`}>
+              <p>save</p>
+            </Link>
+          </span>
+          <span>
             <img src="/icons8-edit-48.webp" alt="" />
-            <Link to={`/user/videos/update-video/videoId`}>
+            <Link to={`/user/videos/update-video/${props.video._id}`}>
               <p>edit</p>
             </Link>
           </span>
