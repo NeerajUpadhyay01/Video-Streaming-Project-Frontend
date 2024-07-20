@@ -1,1 +1,1 @@
-export const server = `http://localhost:8000/api/v1`;
+export const server = `https://video-streaming-project-backend.vercel.app`;
