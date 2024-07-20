@@ -33,37 +33,37 @@ function Sidebar(props) {
         <span></span>
         <span></span>
       </div>
-      <Link to="/user" onClick={() => props.toggleMenu()}>
-        home
+      <Link to="/user/home" onClick={() => props.toggleMenu()}>
+        Home
       </Link>
       <Link to="/user/profile" onClick={() => props.toggleMenu()}>
-        view profile
+        View profile
       </Link>
       <Link
         to={`/user/channel-profile/${userData._id}`}
         onClick={() => props.toggleMenu()}
       >
-        channel profile
+        Your channel
       </Link>
       <Link to="/user/videos" onClick={() => props.toggleMenu()}>
-        videos
+        Your videos
       </Link>
       <Link to="/user/tweets" onClick={() => props.toggleMenu()}>
-        tweets
+        Your tweets
       </Link>
       <Link to="/user/playlists" onClick={() => props.toggleMenu()}>
-        playlists
+        Playlists
       </Link>
       <Link to="/user/subscriptions" onClick={() => props.toggleMenu()}>
-        subscriptions
+        Subscriptions
       </Link>
       <Link to="/user/history" onClick={() => props.toggleMenu()}>
-        history
+        History
       </Link>
       <hr style={{ opacity: ".2" }} />
       <Link onClick={handleClick}>
         <img src="/icons8-logout-30.webp" alt="" />
-        logout
+        Logout
       </Link>
     </div>
   );

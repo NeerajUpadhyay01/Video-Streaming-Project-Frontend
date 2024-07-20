@@ -44,7 +44,7 @@ function Login() {
       //     isLoggedIn:true
       //   }
       // })
-      navigate("/user");
+      navigate("/user/home");
     }
   }
   return (

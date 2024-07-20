@@ -42,7 +42,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<Layout />}>
       <Route path="" element={<LandingPage />} />
       <Route path="user" element={<User />}>
-        <Route path="" element={<Home />} />
+        <Route path="home" element={<Home />} />
         <Route path="profile" element={<UserProfile />} />
         <Route path="channel-profile/:userId" element={<ChannelProfile />} />
         <Route path="videos" element={<Video />}>
