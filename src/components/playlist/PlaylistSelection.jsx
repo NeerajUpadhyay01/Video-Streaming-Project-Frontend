@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CreatePlaylist from "./CreatePlaylist";
 import axios from "axios";
 import { server } from "../../constants";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function PlaylistSelection() {
   const { videoId } = useParams();
@@ -119,13 +119,19 @@ function PlaylistSelection() {
               </span>
               <span>
                 <button type="submit">Done</button>
-                <button type="button">Cancel</button>
+                <Link to={`/user/videos/${videoId}`}>
+                  <button type="button">Cancel</button>
+                </Link>
               </span>
             </form>
           </div>
         </div>
       ) : (
-        <CreatePlaylist location={location} handleClick={handleClick} refresh={refresh}/>
+        <CreatePlaylist
+          location={location}
+          handleClick={handleClick}
+          refresh={refresh}
+        />
       )}
     </>
   );
