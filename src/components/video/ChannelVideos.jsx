@@ -17,7 +17,7 @@ function ChannelVideos() {
       setVideoData(response.data);
     }
     fetchChannelVideos();
-  }, [videoData]);
+  }, [videoData.length]);
   return (
     <div className="channelVideos">
       <div id="videos">
