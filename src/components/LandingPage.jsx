@@ -9,7 +9,7 @@ function LandingPage() {
     setisActive(!isActive);
   }
   return (
-    <div className="landingPage" onClick={handleClick}>
+    <div className="landingPage">
       <header className={isActive ? "active" : ""}>
         <span>
           <img src="/Designer (4).webp" alt="app-logo" />
