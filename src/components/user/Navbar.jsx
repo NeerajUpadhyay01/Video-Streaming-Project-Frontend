@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import axios from "axios";
 import { server } from "../../constants";
+import { useNavigate } from "react-router-dom";
 
 function Navbar(props) {
   const [searchdata, setSearchData] = useState("");
   const [avatar, setAvatar] = useState(null);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetchUser() {
@@ -27,9 +30,13 @@ function Navbar(props) {
     e.preventDefault();
   }
 
+  function handleClick(){
+    navigate("/user/home")
+  }
+
   return (
     <div className="Navbar">
-      <img id="app-logo" src="/Designer (4).webp" alt="app-logo" />
+      <img id="app-logo" src="/Designer (4).webp" alt="app-logo" onClick={handleClick}/>
       <form action="" onSubmit={handleSubmit}>
         <input
           type="text"
