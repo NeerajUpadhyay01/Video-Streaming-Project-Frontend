@@ -1,7 +1,4 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { server } from "../../constants";
-import { useNavigate, useParams } from "react-router-dom";
+import { axios, server, useState, useNavigate, useParams } from "../../imports";
 
 function EditPlaylist() {
   const { playlistId } = useParams();

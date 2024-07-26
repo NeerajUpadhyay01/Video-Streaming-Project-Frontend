@@ -1,7 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { server } from "../../constants";
+import {
+  axios,
+  server,
+  useEffect,
+  useState,
+  Link,
+  useNavigate,
+} from "../../imports";
 
 function Playlist({ playlist, username, refresh }) {
   const [isActive, setIsActive] = useState(false);

@@ -1,21 +1,18 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { server } from "../../constants";
-import { useNavigate } from "react-router-dom";
+import { axios, server, useState, useNavigate } from "../../imports";
 
 function CreatePlaylist(props) {
   // console.log(props)
   const [data, setData] = useState({
     name: "",
-    description:""
+    description: "",
   });
 
   const navigate = useNavigate();
 
   function handleChange(e) {
-    const {name,value} = e.target
+    const { name, value } = e.target;
     setData((prevdata) => {
-        return {...prevdata, [name]:value}
+      return { ...prevdata, [name]: value };
     });
   }
 
@@ -26,7 +23,7 @@ function CreatePlaylist(props) {
         `${server}/playlist/`,
         {
           name: data.name,
-          description: data.description
+          description: data.description,
         },
         {
           withCredentials: true,
@@ -34,11 +31,13 @@ function CreatePlaylist(props) {
       )
       .then((res) => res.data);
     // console.log(response);
-    if (response.success===true) {
-      {(!props.location) && navigate("/user/playlists")}
+    if (response.success === true) {
+      {
+        !props.location && navigate("/user/playlists");
+      }
     }
-    props.refresh()
-    props.handleClick()
+    props.refresh();
+    props.handleClick();
   }
 
   return (

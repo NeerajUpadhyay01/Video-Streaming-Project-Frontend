@@ -1,8 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
-import axios from "axios";
-import { server } from "../../constants";
-import { useNavigate } from "react-router-dom";
+import { axios, server, useEffect, useState, useNavigate } from "../../imports";
 
 function Navbar(props) {
   const [searchdata, setSearchData] = useState("");

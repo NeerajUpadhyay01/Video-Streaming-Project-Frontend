@@ -1,8 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Tweet from "./Tweet";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../constants";
+import { axios, server, useEffect, useState, Link, Tweet } from "../../imports";
 
 function UserTweets() {
   const [data, setData] = useState([]);

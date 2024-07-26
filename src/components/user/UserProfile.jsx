@@ -1,7 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { server } from "../../constants";
-import { Link } from "react-router-dom";
+import { axios, server, useEffect, useState, Link } from "../../imports";
 
 function UserProfile() {
   const [data, setData] = useState({

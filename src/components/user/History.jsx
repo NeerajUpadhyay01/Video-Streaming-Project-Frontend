@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Video from "../video/Video";
-import { server } from "../../constants";
+import { axios, server, useEffect, useState } from "../../imports";
 
 function History() {
   const [data, setData] = useState([]);

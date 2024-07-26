@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Playlist from "./Playlist";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../constants";
+import {
+  axios,
+  server,
+  useEffect,
+  useState,
+  Link,
+  Playlist,
+} from "../../imports";
 
 function UserPlaylists() {
   const [playlistData, setPlaylistData] = useState([]);

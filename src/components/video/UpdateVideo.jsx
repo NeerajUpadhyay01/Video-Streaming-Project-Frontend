@@ -1,10 +1,7 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
-import { server } from '../../constants';
+import { axios, server, useNavigate, useParams, useState } from "../../imports";
 
 function UpdateVideo() {
-    const {videoId}=useParams();
+  const { videoId } = useParams();
 
   const [data, setData] = useState({
     title: "",
@@ -51,7 +48,7 @@ function UpdateVideo() {
       .then((res) => res.data)
       .catch((error) => console.log(error));
 
-    if (response.success===true) {
+    if (response.success === true) {
       // setData(prevData => {
       //   return {...prevData,isRegistered:true}
       // })

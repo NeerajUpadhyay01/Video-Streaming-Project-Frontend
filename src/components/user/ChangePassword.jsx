@@ -1,7 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { server } from "../../constants";
-import { useNavigate } from "react-router-dom";
+import { axios, server, useState, useNavigate } from "../../imports";
 
 function ChangePassword() {
   const [data, setData] = useState({

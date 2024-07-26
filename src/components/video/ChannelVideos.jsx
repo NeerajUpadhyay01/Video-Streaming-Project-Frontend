@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
 import Video from "../video/Video";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { server } from "../../constants";
+import { axios, server, useEffect, useState, Link } from "../../imports";
 
 function ChannelVideos() {
   const [videoData, setVideoData] = useState([]);

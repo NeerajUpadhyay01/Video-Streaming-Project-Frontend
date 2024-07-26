@@ -1,7 +1,13 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { server } from "../../constants";
+import {
+  axios,
+  server,
+  useFormattedDate,
+  Link,
+  useNavigate,
+  useEffect,
+  useState,
+  useRef,
+} from "../../imports";
 
 function Video(props) {
   const [currentUser, setCurrentUser] = useState([]);
@@ -36,19 +42,19 @@ function Video(props) {
     setIshide(false);
   };
 
-  const createdAtDate = new Date(props.video.createdAt);
-  const year = createdAtDate.getFullYear();
-  const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
-  const day = createdAtDate.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""
-  }${day}`;
+  const formattedDate = useFormattedDate(props.video.createdAt);
+  const formattedViews = props.video.views === 1 ? "view" : "views";
 
   const navigate = useNavigate();
 
   const handleClick = () => {
     axios.post(
       `${server}/users/history/add/${props.video._id}`,
+      {},
+      { withCredentials: true }
+    );
+    axios.patch(
+      `${server}/videos/${props.video._id}/IncrViews`,
       {},
       { withCredentials: true }
     );
@@ -99,8 +105,8 @@ function Video(props) {
           <div id="title">{props.video.title}</div>
           <div>
             <span id="owner">
-              {props.video.owner.username} - {props.video.views} views -
-              {formattedDate}
+              {props.video.owner.username} | {props.video.views}{" "}
+              {formattedViews} | {formattedDate}
             </span>
           </div>
         </div>

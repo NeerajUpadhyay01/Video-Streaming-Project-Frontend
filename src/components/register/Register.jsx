@@ -1,7 +1,4 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { server } from "../../constants";
+import { axios, server, useNavigate, useState, Link } from "../../imports";
 
 function Register() {
   const [data, setData] = useState({
@@ -11,7 +8,7 @@ function Register() {
     avatar: null,
     coverImage: null,
     username: "",
-    bio:"",
+    bio: "",
     // isRegistered: false,
   });
   // console.log(data);

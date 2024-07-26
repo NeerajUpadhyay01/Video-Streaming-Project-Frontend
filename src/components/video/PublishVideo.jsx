@@ -1,17 +1,15 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { server } from '../../constants';
+import { axios, server, useState } from "../../imports";
 
 function PublishVideo() {
-   const [ data, setData ] = useState({
+  const [data, setData] = useState({
     title: "",
     description: "",
     videoFile: "",
     thumbnail: "",
   });
 
-  function handleChange(e){
-    const {name,value}=e.target
+  function handleChange(e) {
+    const { name, value } = e.target;
     setData((prevData) => {
       return {
         ...prevData,
@@ -30,13 +28,13 @@ function PublishVideo() {
     }));
   }
 
-  async function handelSubmit(e){
-    e.preventDefault();  
+  async function handelSubmit(e) {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("videoFile", data.videoFile);
-    formData.append("thumbnail", data.thumbnail); 
+    formData.append("thumbnail", data.thumbnail);
 
     const response = await axios
       .post(`${server}/videos/`, formData, {
@@ -48,7 +46,7 @@ function PublishVideo() {
       .then((res) => res.data)
       .catch((error) => console.log(error));
 
-    if (response.success===true) {
+    if (response.success === true) {
       // setData(prevData => {
       //   return {...prevData,isRegistered:true}
       // })
@@ -95,4 +93,4 @@ function PublishVideo() {
   );
 }
 
-export default PublishVideo
+export default PublishVideo;

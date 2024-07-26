@@ -1,16 +1,23 @@
-import axios from "axios";
-import React from "react";
-import { server } from "../../constants";
+import {
+  axios,
+  server,
+  useFormattedDate,
+  useEffect,
+  useState,
+} from "../../imports";
 
 function Comment({ comment, features, setFeatures, deleteComment, setCommentData, handleFocus }) {
-  // console.log(comment)
-  const createdAtDate = new Date(comment.createdAt);
-  const year = createdAtDate.getFullYear();
-  const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
-  const day = createdAtDate.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""
-  }${day}`;
+  const [currentUser,setCurrentUser] = useState([])
+  // console.log(comment);
+  const formattedDate = useFormattedDate(comment.createdAt);
+
+  useEffect(()=>{
+    async function fetchUser(){
+      const response = await axios.get(`${server}/users/current-user`,{withCredentials:true}).then(res=>res.data)
+      setCurrentUser(response.data)
+    }
+    fetchUser()
+  },[])
 
   async function toggelCommentLike() {
     const response = await axios
@@ -63,8 +70,12 @@ function Comment({ comment, features, setFeatures, deleteComment, setCommentData
           />
           <p>{comment.likes}</p>
         </span>
-        <img src="/icons8-edit-48.webp" alt="" onClick={handleClick}/>
-        <img onClick={handelDelete} src="/icons8-delete-48.webp" alt="" />
+        {(currentUser._id === comment.owner._id) && (
+          <>
+            <img src="/icons8-edit-48.webp" alt="" onClick={handleClick} />
+            <img onClick={handelDelete} src="/icons8-delete-48.webp" alt="" />
+          </>
+        )}
       </div>
     </div>
   );

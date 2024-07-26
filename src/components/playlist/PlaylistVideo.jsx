@@ -1,7 +1,12 @@
-import axios from "axios";
-import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { server } from "../../constants";
+import {
+  axios,
+  server,
+  useFormattedDate,
+  useRef,
+  useState,
+  Link,
+  useNavigate,
+} from "../../imports";
 
 function PlaylistVideo(props) {
   // console.log(props)
@@ -32,6 +37,11 @@ function PlaylistVideo(props) {
       {},
       { withCredentials: true }
     );
+    axios.patch(
+      `${server}/videos/${props.video._id}/IncrViews`,
+      {},
+      { withCredentials: true }
+    );
     navigate(`/user/videos/${props.video._id}`);
   }
 
@@ -39,13 +49,8 @@ function PlaylistVideo(props) {
     props.removeVideo(props.video._id);
   }
 
-  const createdAtDate = new Date(props.video.createdAt);
-  const year = createdAtDate.getFullYear();
-  const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
-  const day = createdAtDate.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""
-  }${day}`;
+  const formattedDate = useFormattedDate(props.video.createdAt);
+  const formattedViews = props.video.views === 1 ? "view" : "views";
 
   return (
     <div className="playlistVideo">
@@ -57,17 +62,19 @@ function PlaylistVideo(props) {
           alt="thumbnail"
         />
       )}
-      {ishide && <video
-        muted
-        // controls
-        ref={videoRef}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
-      >
-        <source src={`${props.video.videoFile}`} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>}
+      {ishide && (
+        <video
+          muted
+          // controls
+          ref={videoRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
+        >
+          <source src={`${props.video.videoFile}`} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
 
       <div className="details">
         <div>
@@ -87,7 +94,7 @@ function PlaylistVideo(props) {
           </span>
           <div>
             <span id="owner">
-              {props.video.views} views - {formattedDate}
+              {props.video.views} {formattedViews} | {formattedDate}
             </span>
           </div>
         </div>

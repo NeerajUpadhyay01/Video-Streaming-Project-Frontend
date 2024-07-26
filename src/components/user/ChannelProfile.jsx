@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
 import Video from "../video/Video";
-import axios from "axios";
-import { server } from "../../constants";
-import Playlist from "../playlist/Playlist";
-import { useParams } from "react-router-dom";
+import {
+  axios,
+  server,
+  useFormattedDate,
+  useEffect,
+  useState,
+  useParams,
+  Playlist,
+} from "../../imports";
 
 function ChannelProfile() {
   const [videoData, setVideoData] = useState([]);
@@ -47,13 +51,7 @@ function ChannelProfile() {
     fetchPlaylists();
   }, [userId, refreshData]);
 
-  const createdAtDate = new Date(userData.createdAt);
-  const year = createdAtDate.getFullYear();
-  const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
-  const day = createdAtDate.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""
-  }${day}`;
+  const formattedDate = useFormattedDate(userData.createdAt);
 
   function refresh() {
     setRefreshData(!refreshData);

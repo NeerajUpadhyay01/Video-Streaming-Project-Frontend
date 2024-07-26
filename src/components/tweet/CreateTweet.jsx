@@ -1,7 +1,4 @@
-import axios from "axios";
-import React, { useState } from "react";
-import { server } from "../../constants";
-import { useNavigate } from "react-router-dom";
+import { axios, server, useState, useNavigate } from "../../imports";
 
 function CreateTweet() {
   const [tweet, setTweet] = useState("");

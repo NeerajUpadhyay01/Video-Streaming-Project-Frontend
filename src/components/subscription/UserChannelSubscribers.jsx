@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
 import User from './User';
-import { server } from '../../constants';
-import axios from 'axios';
+import { axios, server, useEffect, useState, Link } from "../../imports";
 
 function UserChannelSubscribers() {
     const [data, setData] = useState({

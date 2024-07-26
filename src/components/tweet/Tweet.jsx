@@ -1,17 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useFormattedDate, Link } from "../../imports";
+
 
 function Tweet(props) {
   // console.log(props);
 
-  const createdAtDate = new Date(props.item.createdAt);
-  const year = createdAtDate.getFullYear();
-  const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
-  const day = createdAtDate.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""
-  }${day}`;
-
+  const formattedDate = useFormattedDate(props.item.createdAt);
+  
   function handelDelete() {
     props.deleteTweet(props.item._id);
   }

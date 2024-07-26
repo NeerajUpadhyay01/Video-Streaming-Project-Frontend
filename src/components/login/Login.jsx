@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { server } from "../../constants.jsx";
-import axios from "axios";
+import { axios, server, Link, useNavigate, useState } from "../../imports";
 
 function Login() {
   const [data, setData] = useState({
