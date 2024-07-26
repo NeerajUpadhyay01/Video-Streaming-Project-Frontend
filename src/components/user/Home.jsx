@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
 import Video from "../video/Video";
-import axios from "axios";
-import { server } from "../../constants";
-import Tweet from "../tweet/Tweet";
+import { axios, server, useEffect, useState,Tweet } from "../../imports";
+import { useLoading } from "../../LoadingContext";
 
 function Home() {
   const [videos, setVideos] = useState([]);
   const [tweets, setTweets] = useState([]);
   const [isActive,setIsActive] = useState(false)
   const [refreshTweets, setRefreshTweets] = useState(false);
+  const {setLoading} = useLoading()
   // console.log(tweets);
 
   const location = "home";
 
   useEffect(() => {
+    setLoading(true);
     async function fetchVideos() {
       const response = await axios
         .get(`${server}/videos/otherVideos`, { withCredentials: true })
@@ -52,6 +52,7 @@ function Home() {
     }
     fetchVideos();
     fetchTweets();
+    setLoading(false);
   }, [refreshTweets]);
 
   function handleClick(){
