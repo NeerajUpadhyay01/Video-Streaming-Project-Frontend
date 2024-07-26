@@ -1,7 +1,9 @@
 import { axios, server, useState, useNavigate, useParams } from "../../imports";
+import Loader from "../Loader";
 
 function EditTweet() {
   const { tweetId } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [tweet, setTweet] = useState("");
 
@@ -12,6 +14,7 @@ function EditTweet() {
   }
 
   async function handleSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
     const response = await axios
       .patch(
@@ -26,6 +29,7 @@ function EditTweet() {
       .then((res) => res.data);
     // console.log(response);
     if (response) {
+      setIsLoading(false);
       navigate("/user/tweets");
     }
   }
@@ -40,7 +44,7 @@ function EditTweet() {
           value={tweet}
           required
         ></textarea>
-        <button>update tweet</button>
+        <button>{!isLoading ? "Update Tweet" : <Loader />}</button>
       </form>
     </div>
   );

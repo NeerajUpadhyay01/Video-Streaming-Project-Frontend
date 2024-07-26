@@ -1,6 +1,8 @@
 import { axios, server, useNavigate, useState, Link } from "../../imports";
+import Loader from "../Loader";
 
 function Register() {
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     fullname: "",
     email: "",
@@ -36,6 +38,7 @@ function Register() {
   }
 
   async function handelSubmit(e) {
+    setIsLoading(true)
     e.preventDefault();
     const formData = new FormData();
     formData.append("fullname", data.fullname);
@@ -59,6 +62,7 @@ function Register() {
       // setData(prevData => {
       //   return {...prevData,isRegistered:true}
       // })
+    setIsLoading(false)
       navigate("/login");
     }
   }
@@ -122,7 +126,7 @@ function Register() {
           name="coverImage"
           onChange={handleFileChange}
         />
-        <button>Register</button>
+        <button>{!isLoading ? "Register" : <Loader />}</button>
         <p>
           Already have an account? <Link to="/login">login here</Link>
         </p>

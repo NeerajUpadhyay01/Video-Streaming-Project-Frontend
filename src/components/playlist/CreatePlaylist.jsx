@@ -1,6 +1,8 @@
+import Loader from "../Loader";
 import { axios, server, useState, useNavigate } from "../../imports";
 
 function CreatePlaylist(props) {
+  const [isLoading, setIsLoading] = useState(false);
   // console.log(props)
   const [data, setData] = useState({
     name: "",
@@ -17,6 +19,7 @@ function CreatePlaylist(props) {
   }
 
   async function handleSubmit(e) {
+    setIsLoading(true)
     e.preventDefault();
     const response = await axios
       .post(
@@ -38,6 +41,7 @@ function CreatePlaylist(props) {
     }
     props.refresh();
     props.handleClick();
+    setIsLoading(false);
   }
 
   return (
@@ -60,7 +64,7 @@ function CreatePlaylist(props) {
           onChange={handleChange}
           required
         ></textarea>
-        <button>create playlist</button>
+        <button>{!isLoading ? "Create Playlist" : <Loader />}</button>
       </form>
     </div>
   );

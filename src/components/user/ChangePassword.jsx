@@ -1,10 +1,12 @@
 import { axios, server, useState, useNavigate } from "../../imports";
+import Loader from "../Loader";
 
 function ChangePassword() {
   const [data, setData] = useState({
     oldPassword: "",
     newPassword: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleChange(e) {
     // const {name,value}=e.target
@@ -19,6 +21,7 @@ function ChangePassword() {
   const navigate = useNavigate();
 
   async function handelSubmit(e) {
+    setIsLoading(true)
     e.preventDefault();
 
     const response = await axios
@@ -33,6 +36,7 @@ function ChangePassword() {
       .then((res) => res.data);
 
     if (response.success === true) {
+    setIsLoading(false)
       navigate("/user/profile");
     }
   }
@@ -58,7 +62,7 @@ function ChangePassword() {
           onChange={handleChange}
           required
         />
-        <button>Change Password</button>
+        <button>{!isLoading ? "Change Password" : <Loader />}</button>
       </form>
     </div>
   );

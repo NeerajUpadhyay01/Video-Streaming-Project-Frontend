@@ -1,4 +1,5 @@
 import { axios, server, useState } from "../../imports";
+import Loader from "../Loader";
 
 function PublishVideo() {
   const [data, setData] = useState({
@@ -7,6 +8,7 @@ function PublishVideo() {
     videoFile: "",
     thumbnail: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -29,6 +31,7 @@ function PublishVideo() {
   }
 
   async function handelSubmit(e) {
+    setIsLoading(true)
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", data.title);
@@ -50,6 +53,7 @@ function PublishVideo() {
       // setData(prevData => {
       //   return {...prevData,isRegistered:true}
       // })
+    setIsLoading(false)
       navigate("/user/videos");
     }
   }
@@ -87,7 +91,7 @@ function PublishVideo() {
           name="thumbnail"
           onChange={handleFileChange}
         />
-        <button>publish video</button>
+        <button>{!isLoading ? "Publish Video" : <Loader />}</button>
       </form>
     </div>
   );

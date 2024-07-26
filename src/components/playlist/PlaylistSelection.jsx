@@ -6,8 +6,9 @@ import {
   Link,
   useNavigate,
   useParams,
-  CreatePlaylist
+  CreatePlaylist,
 } from "../../imports";
+import Loader from "../Loader";
 
 function PlaylistSelection() {
   const { videoId } = useParams();
@@ -16,6 +17,7 @@ function PlaylistSelection() {
   const [isClicked, setIsClicked] = useState(false);
   const [checkedPlaylists, setCheckedPlaylists] = useState([]);
   const location = "PlaylistSelection";
+  const [isLoading, setIsLoading] = useState(false);
   // console.log(checkedPlaylists)
   // console.log(playlistData)
 
@@ -44,50 +46,55 @@ function PlaylistSelection() {
     setIsClicked(!isClicked);
   }
 
- function handleChange(event) {
-   const { id, checked } = event.target;
-   const checkedPlaylist = playlistData.find((playlist) => playlist._id === id);
+  function handleChange(event) {
+    const { id, checked } = event.target;
+    const checkedPlaylist = playlistData.find(
+      (playlist) => playlist._id === id
+    );
 
-   setCheckedPlaylists((prevCheckedPlaylists) => {
-     if (checked) {
-       return [...prevCheckedPlaylists, checkedPlaylist];
-     } else {
-       return prevCheckedPlaylists.filter((playlist) => playlist._id !== id);
-     }
-   });
- }
+    setCheckedPlaylists((prevCheckedPlaylists) => {
+      if (checked) {
+        return [...prevCheckedPlaylists, checkedPlaylist];
+      } else {
+        return prevCheckedPlaylists.filter((playlist) => playlist._id !== id);
+      }
+    });
+  }
 
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
     try {
       await handleAdd();
       navigate(`/user/videos/${videoId}`);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error in handleSubmit:", error);
     }
   }
 
- async function handleAdd() {
-   const promises = checkedPlaylists.map(async (playlist) => {
-     try {
-       const videoExists = playlist.videos.some((video) => video._id === videoId);
-       if (!videoExists) {
-         await axios.patch(
-           `${server}/playlist/add/${videoId}/${playlist._id}`,
-           {},
-           { withCredentials: true }
-         );
-       }
-     } catch (error) {
-       console.error(`Error with playlist ${playlist._id}:`, error);
-     }
-   });
+  async function handleAdd() {
+    const promises = checkedPlaylists.map(async (playlist) => {
+      try {
+        const videoExists = playlist.videos.some(
+          (video) => video._id === videoId
+        );
+        if (!videoExists) {
+          await axios.patch(
+            `${server}/playlist/add/${videoId}/${playlist._id}`,
+            {},
+            { withCredentials: true }
+          );
+        }
+      } catch (error) {
+        console.error(`Error with playlist ${playlist._id}:`, error);
+      }
+    });
 
-   await Promise.all(promises);
- }
-
+    await Promise.all(promises);
+  }
 
   return (
     <>
@@ -123,7 +130,9 @@ function PlaylistSelection() {
                 })}
               </span>
               <span>
-                <button type="submit">Done</button>
+                <button type="submit">
+                  {!isLoading ? "Done" : <Loader />}
+                </button>
                 <Link to={`/user/videos/${videoId}`}>
                   <button type="button">Cancel</button>
                 </Link>

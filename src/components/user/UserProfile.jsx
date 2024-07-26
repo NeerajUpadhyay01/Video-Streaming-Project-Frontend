@@ -1,4 +1,5 @@
 import { axios, server, useEffect, useState, Link } from "../../imports";
+import Loader from "../Loader";
 
 function UserProfile() {
   const [data, setData] = useState({
@@ -10,6 +11,7 @@ function UserProfile() {
     coverImage: null,
     isDisabled: true,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -60,6 +62,7 @@ function UserProfile() {
 
   async function handleDetails(e) {
     e.preventDefault();
+    setIsLoading(true);
 
     const response = await axios
       .patch(
@@ -79,10 +82,13 @@ function UserProfile() {
       setData((prevData) => {
         return { ...prevData, isDisabled: !data.isDisabled };
       });
+    setIsLoading(false);
+
     }
   }
 
   async function handleAvatar(e) {
+    setIsLoading(true)
     e.preventDefault();
 
     const formData = new FormData();
@@ -101,10 +107,13 @@ function UserProfile() {
       setData((prevData) => {
         return { ...prevData, isDisabled: !data.isDisabled };
       });
+    setIsLoading(false);
+
     }
   }
 
   async function handleCoverImage(e) {
+    setIsLoading(true)
     e.preventDefault();
 
     const formData = new FormData();
@@ -123,6 +132,7 @@ function UserProfile() {
       setData((prevData) => {
         return { ...prevData, isDisabled: !data.isDisabled };
       });
+      setIsLoading(false);
     }
   }
   return (
@@ -171,7 +181,7 @@ function UserProfile() {
             placeholder="bio"
             disabled={data.isDisabled}
           ></textarea>
-          <button>save</button>
+          <button>{!isLoading ? "Save" : <Loader />}</button>
         </form>
         <form action="" id="file" onSubmit={handleAvatar}>
           <input
@@ -181,7 +191,7 @@ function UserProfile() {
             onChange={handleFileChange}
             required
           />
-          <button>save</button>
+          <button>{!isLoading ? "Save" : <Loader />}</button>
         </form>
         <form action="" id="file" onSubmit={handleCoverImage}>
           <input
@@ -190,7 +200,7 @@ function UserProfile() {
             name="coverImage"
             onChange={handleFileChange}
           />
-          <button>save</button>
+          <button>{!isLoading ? "Save" : <Loader />}</button>
         </form>
         <Link to="/user/change-password">
           <span>

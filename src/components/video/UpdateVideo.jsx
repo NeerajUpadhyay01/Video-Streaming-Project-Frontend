@@ -1,4 +1,5 @@
 import { axios, server, useNavigate, useParams, useState } from "../../imports";
+import Loader from "../Loader";
 
 function UpdateVideo() {
   const { videoId } = useParams();
@@ -8,6 +9,7 @@ function UpdateVideo() {
     description: "",
     thumbnail: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,6 +34,7 @@ function UpdateVideo() {
   }
 
   async function handelSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", data.title);
@@ -52,6 +55,7 @@ function UpdateVideo() {
       // setData(prevData => {
       //   return {...prevData,isRegistered:true}
       // })
+      setIsLoading(false);
       navigate("/user/videos");
     }
   }
@@ -83,7 +87,7 @@ function UpdateVideo() {
           onChange={handleFileChange}
           required
         />
-        <button>update video</button>
+        <button>{!isLoading ? "Update Video" : <Loader />}</button>
       </form>
     </div>
   );

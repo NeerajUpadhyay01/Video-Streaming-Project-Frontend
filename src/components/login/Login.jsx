@@ -1,4 +1,5 @@
 import { axios, server, Link, useNavigate, useState } from "../../imports";
+import Loader from "../Loader";
 
 function Login() {
   const [data, setData] = useState({
@@ -6,6 +7,7 @@ function Login() {
     password: "",
     // isLoggedIn:false
   });
+  const [isLoading,setIsLoading] = useState(false)
 
   function handleChange(e) {
     // const {name,value}=e.target
@@ -21,6 +23,7 @@ function Login() {
 
   async function handelSubmit(e) {
     e.preventDefault();
+    setIsLoading(true)
     const response = await axios
       .post(
         `${server}/users/login`,
@@ -42,6 +45,7 @@ function Login() {
       //   }
       // })
       navigate("/user/home");
+      setIsLoading(false)
     }
   }
   return (
@@ -65,7 +69,7 @@ function Login() {
           value={data.password}
           onChange={handleChange}
         />
-        <button>Login</button>
+        <button>{!isLoading ? "Login" : <Loader/>}</button>
         <p>
           Don't have an account? <Link to="/register">register here</Link>
         </p>

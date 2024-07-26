@@ -1,7 +1,9 @@
 import { axios, server, useState, useNavigate } from "../../imports";
+import Loader from "../Loader";
 
 function CreateTweet() {
   const [tweet, setTweet] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -10,6 +12,7 @@ function CreateTweet() {
   }
 
   async function handleSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
     const response = await axios
       .post(
@@ -24,6 +27,7 @@ function CreateTweet() {
       .then((res) => res.data);
     // console.log(response);
     if (response) {
+      setIsLoading(false);
       navigate("/user/tweets");
     }
   }
@@ -38,7 +42,7 @@ function CreateTweet() {
           value={tweet}
           required
         ></textarea>
-        <button>tweet</button>
+        <button>{!isLoading ? "Tweet" : <Loader />}</button>
       </form>
     </div>
   );

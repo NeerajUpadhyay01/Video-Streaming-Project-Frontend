@@ -1,9 +1,11 @@
+import Loader from "../Loader";
 import { axios, server, useState, useNavigate, useParams } from "../../imports";
 
 function EditPlaylist() {
   const { playlistId } = useParams();
   // console.log(playlistId)
 
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -19,7 +21,8 @@ function EditPlaylist() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault();
+      setIsLoading(true);
+      e.preventDefault();
     const response = await axios
       .patch(
         `${server}/playlist/${playlistId}`,
@@ -34,6 +37,7 @@ function EditPlaylist() {
       .then((res) => res.data);
     // console.log(response);
     if (response.success === true) {
+      setIsLoading(false)
       navigate("/user/playlists");
     }
   }
@@ -57,7 +61,7 @@ function EditPlaylist() {
           onChange={handleChange}
           required
         ></textarea>
-        <button>update playlist</button>
+        <button>{!isLoading ? "Update Playlist" : <Loader />}</button>
       </form>
     </div>
   );
