@@ -1,8 +1,12 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { server } from "../../constants";
-import PlaylistVideo from "./PlaylistVideo";
+import {
+  axios,
+  server,
+  useFormattedDate,
+  useEffect,
+  useState,
+  useParams,
+  PlaylistVideo
+} from "../../imports";
 
 function PlaylistDetail() {
   const { playlistId } = useParams();
@@ -24,13 +28,7 @@ function PlaylistDetail() {
     fetchPlaylist();
   }, [refresh]);
 
-  const createdAtDate = new Date(playlistData.createdAt);
-  const year = createdAtDate.getFullYear();
-  const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
-  const day = createdAtDate.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""
-  }${day}`;
+  const formattedDate = useFormattedDate(playlistData.createdAt);
 
   async function removeVideo(videoId){
     const response = await axios.patch(`${server}/playlist/remove/${videoId}/${playlistId}`,{},{

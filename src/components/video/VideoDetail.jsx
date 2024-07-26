@@ -1,9 +1,14 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { server } from "../../constants";
-import PlaylistVideo from "../playlist/PlaylistVideo.jsx";
-import Comment from "../comment/Comment.jsx";
+import {
+  axios,
+  server,
+  useFormattedDate,
+  Link,
+  useParams,
+  useEffect,
+  useState,
+  PlaylistVideo,
+  Comment,
+} from "../../imports";
 
 function VideoDetail() {
   const { videoId } = useParams();
@@ -18,7 +23,7 @@ function VideoDetail() {
   const [commentData, setCommentData] = useState({
     comment: "",
     comments: [],
-    commentToUpdateId: ""
+    commentToUpdateId: "",
   });
   const [refreshComments, setRefreshComments] = useState(false);
   const [otherVideos, setOtherVideos] = useState([]);
@@ -36,7 +41,7 @@ function VideoDetail() {
       setVideoData(response.data[0]);
     }
     fetchVideo();
-  }, [videoId, features.isSubscribed, features.isVideoLiked]);
+  }, [videoId, features.isSubscribed, features.isVideoLiked, videoData.views]);
 
   useEffect(() => {
     async function fetchVideoComments() {
@@ -61,15 +66,10 @@ function VideoDetail() {
       }
     }
     fetchVideos();
-  }, [videoId]);
+  }, [videoId,videoData.views]);
 
-  const createdAtDate = new Date(videoData.createdAt);
-  const year = createdAtDate.getFullYear();
-  const month = createdAtDate.getMonth() + 1; // Months are zero-indexed, so add 1
-  const day = createdAtDate.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""
-  }${day}`;
+  const formattedDate = useFormattedDate(videoData.createdAt);
+  const formattedViews = videoData.views === 1 ? "view" : "views";
 
   async function handleClick() {
     const response = await axios
@@ -113,7 +113,7 @@ function VideoDetail() {
 
   function cancelInput() {
     setCommentData((prevData) => {
-      return { ...prevData, comment: "", commentToUpdateId:"" };
+      return { ...prevData, comment: "", commentToUpdateId: "" };
     });
     setFeatures((prevData) => {
       return { ...prevData, isFocused: !features.isFocused };
@@ -146,27 +146,31 @@ function VideoDetail() {
     e.preventDefault();
     let response;
     if (commentData.comment !== "") {
-      {(commentData.commentToUpdateId==="") ? ( response = await axios
-        .post(
-          `${server}/comments/${videoData._id}`,
-          {
-            content: commentData.comment.trim(),
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => res.data)) : ( response = await axios
-        .patch(
-          `${server}/comments/c/${commentData.commentToUpdateId}`,
-          {
-            content: commentData.comment.trim(),
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => res.data))}
+      {
+        commentData.commentToUpdateId === ""
+          ? (response = await axios
+              .post(
+                `${server}/comments/${videoData._id}`,
+                {
+                  content: commentData.comment.trim(),
+                },
+                {
+                  withCredentials: true,
+                }
+              )
+              .then((res) => res.data))
+          : (response = await axios
+              .patch(
+                `${server}/comments/c/${commentData.commentToUpdateId}`,
+                {
+                  content: commentData.comment.trim(),
+                },
+                {
+                  withCredentials: true,
+                }
+              )
+              .then((res) => res.data));
+      }
       // console.log(response)
 
       if (response.success === true) {
@@ -183,7 +187,10 @@ function VideoDetail() {
         <div className="detail">
           <p id="title">{videoData.title}</p>
           <span>
-            <p>{videoData.views} views</p> <p>createdAt : {formattedDate}</p>
+            <p>
+              {videoData.views} {formattedViews}
+            </p>
+            <p>createdAt : {formattedDate}</p>
           </span>
           <div className="userDetail">
             {videoData.owner && (
