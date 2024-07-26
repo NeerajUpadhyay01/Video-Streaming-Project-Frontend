@@ -52,7 +52,7 @@ function Navbar(props) {
       </form>
       <img
         id="avatar"
-        src={avatar ? avatar : "/icons8-user-64.png"}
+        src={avatar ? avatar : "/icons8-user-64.webp"}
         alt="avatar"
         onClick={() => props.toggleMenu()}
       />
