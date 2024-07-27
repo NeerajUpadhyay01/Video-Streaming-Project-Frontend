@@ -80,13 +80,23 @@ function UpdateVideo() {
           onChange={handleChange}
           required
         />
-        <input
-          className="file"
-          type="file"
-          name="thumbnail"
-          onChange={handleFileChange}
-          required
-        />
+        <label htmlFor="thumbnail">
+          <input
+            className="file"
+            type="file"
+            name="thumbnail"
+            id="thumbnail"
+            onChange={handleFileChange}
+          />
+          <span>
+            <span>Thumbnail</span>
+            {data.thumbnail
+              ? data.thumbnail.name.slice(0, 8) +
+                "......." +
+                data.thumbnail.name.slice(-8)
+              : "No file choosen"}
+          </span>
+        </label>
         <button>{!isLoading ? "Update Video" : <Loader />}</button>
       </form>
     </div>

@@ -29,7 +29,7 @@ function Register() {
 
   function handleFileChange(e) {
     const { name, files } = e.target;
-    console.log(files[0]);
+    // console.log(files[0]);
 
     setData((prevData) => ({
       ...prevData,
@@ -38,7 +38,7 @@ function Register() {
   }
 
   async function handelSubmit(e) {
-    setIsLoading(true)
+    setIsLoading(true);
     e.preventDefault();
     const formData = new FormData();
     formData.append("fullname", data.fullname);
@@ -62,7 +62,7 @@ function Register() {
       // setData(prevData => {
       //   return {...prevData,isRegistered:true}
       // })
-    setIsLoading(false)
+      setIsLoading(false);
       navigate("/login");
     }
   }
@@ -113,19 +113,41 @@ function Register() {
           rows="5"
           placeholder="bio"
         ></textarea>{" "}
-        <input
-          className="file"
-          type="file"
-          name="avatar"
-          onChange={handleFileChange}
-          required
-        />
-        <input
-          className="file"
-          type="file"
-          name="coverImage"
-          onChange={handleFileChange}
-        />
+        <label htmlFor="avatar">
+          <input
+            className="file"
+            type="file"
+            name="avatar"
+            id="avatar"
+            onChange={handleFileChange}
+            required
+          />
+          <span>
+            <span>Avatar</span>
+            {data.avatar
+              ? data.avatar.name.slice(0, 8) +
+                "......." +
+                data.avatar.name.slice(-8)
+              : "No file choosen"}
+          </span>
+        </label>
+        <label htmlFor="coverImage">
+          <input
+            className="file"
+            type="file"
+            name="coverImage"
+            id="coverImage"
+            onChange={handleFileChange}
+          />
+          <span>
+            <span>CoverImage</span>
+            {data.coverImage
+              ? data.coverImage.name.slice(0, 8) +
+                "......." +
+                data.coverImage.name.slice(-8)
+              : "No file choosen"}
+          </span>
+        </label>
         <button>{!isLoading ? "Register" : <Loader />}</button>
         <p>
           Already have an account? <Link to="/login">login here</Link>

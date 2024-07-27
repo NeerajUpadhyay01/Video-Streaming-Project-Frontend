@@ -11,7 +11,11 @@ function UserProfile() {
     coverImage: null,
     isDisabled: true,
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState({
+    isLoading: false,
+    isAvatarLoading: false,
+    isCoverImageLoading: false,
+  });
 
   useEffect(() => {
     async function fetchCurrentUser() {
@@ -62,7 +66,9 @@ function UserProfile() {
 
   async function handleDetails(e) {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading((prevData) => {
+      return { ...prevData, isLoading: true };
+    });
 
     const response = await axios
       .patch(
@@ -82,13 +88,16 @@ function UserProfile() {
       setData((prevData) => {
         return { ...prevData, isDisabled: !data.isDisabled };
       });
-    setIsLoading(false);
-
+      setLoading((prevData) => {
+        return { ...prevData, isLoading: false };
+      });
     }
   }
 
   async function handleAvatar(e) {
-    setIsLoading(true)
+    setLoading((prevData) => {
+      return { ...prevData, isAvatarLoading: true };
+    });
     e.preventDefault();
 
     const formData = new FormData();
@@ -107,13 +116,16 @@ function UserProfile() {
       setData((prevData) => {
         return { ...prevData, isDisabled: !data.isDisabled };
       });
-    setIsLoading(false);
-
+      setLoading((prevData) => {
+        return { ...prevData, isAvatarLoading: false };
+      });
     }
   }
 
   async function handleCoverImage(e) {
-    setIsLoading(true)
+    setLoading((prevData) => {
+      return { ...prevData, isCoverImageLoading: true };
+    });
     e.preventDefault();
 
     const formData = new FormData();
@@ -132,7 +144,9 @@ function UserProfile() {
       setData((prevData) => {
         return { ...prevData, isDisabled: !data.isDisabled };
       });
-      setIsLoading(false);
+      setLoading((prevData) => {
+        return { ...prevData, isCoverImageLoading: false };
+      });
     }
   }
   return (
@@ -181,26 +195,54 @@ function UserProfile() {
             placeholder="bio"
             disabled={data.isDisabled}
           ></textarea>
-          <button>{!isLoading ? "Save" : <Loader />}</button>
+          <button>{!loading.isLoading ? "Save" : <Loader />}</button>
         </form>
         <form action="" id="file" onSubmit={handleAvatar}>
-          <input
-            className="file"
-            type="file"
-            name="avatar"
-            onChange={handleFileChange}
-            required
-          />
-          <button>{!isLoading ? "Save" : <Loader />}</button>
+          <label htmlFor="Avatar">
+            <input
+              className="file"
+              type="file"
+              name="avatar"
+              id="Avatar"
+              onChange={handleFileChange}
+              required
+              disabled={data.isDisabled}
+            />
+            <span>
+              <span>Avatar</span>
+              {typeof data.avatar === "object" &&
+              data.avatar !== null &&
+              data.avatar.name
+                ? data.avatar.name.slice(0, 4) +
+                  "...." +
+                  data.avatar.name.slice(-4)
+                : "No file choosen"}
+            </span>
+          </label>
+          <button>{!loading.isAvatarLoading ? "Save" : <Loader />}</button>
         </form>
         <form action="" id="file" onSubmit={handleCoverImage}>
-          <input
-            className="file"
-            type="file"
-            name="coverImage"
-            onChange={handleFileChange}
-          />
-          <button>{!isLoading ? "Save" : <Loader />}</button>
+          <label htmlFor="CoverImage">
+            <input
+              className="file"
+              type="file"
+              name="coverImage"
+              id="CoverImage"
+              onChange={handleFileChange}
+              disabled={data.isDisabled}
+            />
+            <span>
+              <span>CoverImage</span>
+              {typeof data.coverImage === "object" &&
+              data.coverImage !== null &&
+              data.coverImage.name
+                ? data.coverImage.name.slice(0, 4) +
+                  "...." +
+                  data.coverImage.name.slice(-4)
+                : "No file choosen"}
+            </span>
+          </label>
+          <button>{!loading.isCoverImageLoading ? "Save" : <Loader />}</button>
         </form>
         <Link to="/user/change-password">
           <span>
