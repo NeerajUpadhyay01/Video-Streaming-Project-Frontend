@@ -53,7 +53,7 @@ function PlaylistDetail() {
       </div>
       <div className="rightDiv">
         {playlistData.videos?.map((video) => {
-          return <PlaylistVideo key={video._id} video={video} removeVideo={removeVideo} location={location}/>;
+          return <PlaylistVideo key={video._id} video={video} removeVideo={removeVideo} location={location} playlistOwner={playlistData.owner._id}/>;
         })}
       </div>
     </div>

@@ -18,6 +18,8 @@ function ChannelProfile() {
   // console.log(userData)
   // console.log(playlistData)
 
+  const location = "ChannelProfile";
+
   useEffect(() => {
     async function fetchChannelVideos() {
       const response = await axios
@@ -93,7 +95,7 @@ function ChannelProfile() {
         <hr style={{ opacity: ".2" }} />
         <div className="channelProfile_videos">
           {videoData?.map((video) => {
-            return <Video key={video._id} video={video} />;
+            return <Video key={video._id} video={video} location={location}/>;
           })}
         </div>
         <hr style={{ opacity: ".2" }} />

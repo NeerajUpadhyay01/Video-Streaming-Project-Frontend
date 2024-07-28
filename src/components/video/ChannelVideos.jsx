@@ -5,6 +5,8 @@ function ChannelVideos() {
   const [videoData, setVideoData] = useState([]);
   // console.log(videoData)
 
+  const location = "ChannelVideos"
+
   useEffect(() => {
     async function fetchChannelVideos() {
       const response = await axios
@@ -19,7 +21,7 @@ function ChannelVideos() {
     <div className="channelVideos">
       <div id="videos">
         {videoData.map((video) => {
-          return <Video key={video._id} video={video} />;
+          return <Video key={video._id} video={video} location={location}/>;
         })}
       </div>
       <div id="addButton">

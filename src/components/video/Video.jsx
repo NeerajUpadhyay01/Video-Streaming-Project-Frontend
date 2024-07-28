@@ -62,9 +62,7 @@ function Video(props) {
   };
 
   const handleClickMenu = () => {
-    if (currentUser._id == props.video.owner._id) {
       setIsActive((isActive) => !isActive);
-    }
   };
 
   const deletevideo = async () => {
@@ -123,16 +121,24 @@ function Video(props) {
               <p>save</p>
             </Link>
           </span>
-          <span>
-            <img src="/icons8-edit-48.webp" alt="" />
-            <Link to={`/user/videos/update-video/${props.video._id}`}>
-              <p>edit</p>
-            </Link>
-          </span>
-          <span>
-            <img src="/icons8-delete-48.webp" alt="" />
-            <p onClick={deletevideo}>delete</p>
-          </span>
+          {currentUser._id === props.video.owner._id &&
+          (props.location === "ChannelProfile" ||
+            props.location === "ChannelVideos") ? (
+            <>
+              <span>
+                <img src="/icons8-edit-48.webp" alt="" />
+                <Link to={`/user/videos/update-video/${props.video._id}`}>
+                  <p>edit</p>
+                </Link>
+              </span>
+              <span>
+                <img src="/icons8-delete-48.webp" alt="" />
+                <p onClick={deletevideo}>delete</p>
+              </span>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

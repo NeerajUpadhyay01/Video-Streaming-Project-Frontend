@@ -4,17 +4,29 @@ import {
   useFormattedDate,
   useRef,
   useState,
+  useEffect,
   Link,
   useNavigate,
 } from "../../imports";
 
 function PlaylistVideo(props) {
-  // console.log(props)
+  console.log(props)
+  const [currentUser, setCurrentUser] = useState([]);
   const [ishide, setIshide] = useState(false);
 
   const videoRef = useRef(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function CurrentUser() {
+      const response = await axios
+        .get(`${server}/users/current-user`, { withCredentials: true })
+        .then((res) => res.data);
+      setCurrentUser(response.data);
+    }
+    CurrentUser();
+  }, []);
 
   const handleMouseEnter = () => {
     if (videoRef.current) {
@@ -80,7 +92,7 @@ function PlaylistVideo(props) {
         <div>
           <span id="first">
             <p id="title">{props.video.title}</p>
-            {props.location ? (
+            {props.location && currentUser._id === props.playlistOwner ? (
               <img src="/icons8-remove-50.webp" alt="" onClick={handleRemove} />
             ) : (
               <Link to={`/user/playlists/${props.video._id}/select-playlist`}>
