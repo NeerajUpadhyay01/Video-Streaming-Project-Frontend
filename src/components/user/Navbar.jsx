@@ -18,14 +18,13 @@ function Navbar(props) {
 
   function handleChange(e) {
     setsearchData(e.target.value);
-    if (searchData === "") {
-      navigate(`/user/home?query=${searchData}`);
-    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    navigate(`/user/home?query=${searchData}`);
+    if (searchData !== "") {
+      navigate(`/user/home?query=${searchData}`);
+    }
   }
 
   function handleClick() {
