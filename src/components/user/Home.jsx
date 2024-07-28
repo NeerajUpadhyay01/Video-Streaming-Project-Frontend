@@ -1,21 +1,28 @@
 import Video from "../video/Video";
-import { axios, server, useEffect, useState,Tweet } from "../../imports";
+import { axios, server, useEffect, useState, Tweet } from "../../imports";
+import { useLocation } from "react-router-dom";
 
 function Home() {
   const [videos, setVideos] = useState([]);
   const [tweets, setTweets] = useState([]);
-  const [isActive,setIsActive] = useState(false)
+  const [isActive, setIsActive] = useState(false);
   const [refreshTweets, setRefreshTweets] = useState(false);
-  // console.log(tweets);
+  // console.log(videos);
+
+  const Location = useLocation();
+  const queryParams = new URLSearchParams(Location.search);
+  const query = queryParams.get("query");
+  // console.log(Location)
 
   const location = "home";
 
   useEffect(() => {
     async function fetchVideos() {
       const response = await axios
-        .get(`${server}/videos/otherVideos`, { withCredentials: true })
+        .get(`${server}/videos`, { params: { query }, withCredentials: true })
         .then((res) => res.data);
-      setVideos(response.data);
+      setVideos(response.data.videos);
+      setIsActive(false);
     }
 
     async function fetchTweets() {
@@ -49,10 +56,10 @@ function Home() {
     }
     fetchVideos();
     fetchTweets();
-  }, [refreshTweets]);
+  }, [refreshTweets, query]);
 
-  function handleClick(){
-    setIsActive(!isActive)
+  function handleClick() {
+    setIsActive(!isActive);
   }
 
   async function toggelTweetLike(tweetId) {
@@ -76,27 +83,31 @@ function Home() {
           <p>&#x2192;</p>
         </span>
       </div>
-      {!isActive && <div className="videos">
-        {videos.map((video) => {
-          // console.log(video)
-          return <Video key={video._id} video={video} />;
-        })}
-      </div>}
-      {isActive && <div className="tweets">
-        {tweets.map((tweetData) => {
-          return tweetData.tweets.map((tweet) => {
-            return (
-              <Tweet
-                key={tweet._id}
-                data={tweetData}
-                item={tweet}
-                location={location}
-                toggelTweetLike={toggelTweetLike}
-              />
-            );
-          });
-        })}
-      </div>}
+      {!isActive && (
+        <div className="videos">
+          {videos.map((video) => {
+            // console.log(video)
+            return <Video key={video._id} video={video} location={location} />;
+          })}
+        </div>
+      )}
+      {isActive && (
+        <div className="tweets">
+          {tweets.map((tweetData) => {
+            return tweetData.tweets.map((tweet) => {
+              return (
+                <Tweet
+                  key={tweet._id}
+                  data={tweetData}
+                  item={tweet}
+                  location={location}
+                  toggelTweetLike={toggelTweetLike}
+                />
+              );
+            });
+          })}
+        </div>
+      )}
     </div>
   );
 }

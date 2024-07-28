@@ -1,10 +1,10 @@
 import { axios, server, useEffect, useState, useNavigate } from "../../imports";
 
 function Navbar(props) {
-  const [searchdata, setSearchData] = useState("");
+  const [searchData, setsearchData] = useState("");
   const [avatar, setAvatar] = useState(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchUser() {
@@ -17,29 +17,36 @@ function Navbar(props) {
   }, []);
 
   function handleChange(e) {
-    setSearchData((prevData) => {
-      return (prevData = e.target.value);
-    });
+    setsearchData(e.target.value);
+    if (searchData === "") {
+      navigate(`/user/home?query=${searchData}`);
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    navigate(`/user/home?query=${searchData}`);
   }
 
-  function handleClick(){
-    navigate("/user/home")
+  function handleClick() {
+    navigate("/user/home");
   }
 
   return (
     <div className="Navbar">
-      <img id="app-logo" src="/Designer (4).webp" alt="app-logo" onClick={handleClick}/>
+      <img
+        id="app-logo"
+        src="/Designer (4).webp"
+        alt="app-logo"
+        onClick={handleClick}
+      />
       <form action="" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="search"
           spellCheck="false"
           name="serachData"
-          value={searchdata.searchdata}
+          value={searchData}
           onChange={handleChange}
         />
         <button>
