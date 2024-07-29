@@ -10,7 +10,7 @@ import {
 } from "../../imports";
 
 function PlaylistVideo(props) {
-  console.log(props)
+  // console.log(props)
   const [currentUser, setCurrentUser] = useState([]);
   const [ishide, setIshide] = useState(false);
 

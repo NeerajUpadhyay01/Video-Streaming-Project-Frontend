@@ -11,9 +11,7 @@ function Playlist({ playlist, username, refresh }) {
   const [isActive, setIsActive] = useState(false);
   const [currentUser, setCurrentUser] = useState([]);
   // console.log(currentUser)
-  // console.log(username)
-  // console.log(user)
-  // console.log(playlist.owner._id);
+  // console.log(playlist.videos);
 
   useEffect(() => {
     async function CurrentUser() {
@@ -49,7 +47,7 @@ function Playlist({ playlist, username, refresh }) {
   return (
     <div className="playlist">
       <img
-        src="/pexels-rickyrecap-1964471.webp"
+        src={playlist.videos[Math.floor(playlist.videos.length/2)]?.thumbnail || "/pexels-rickyrecap-1964471.webp"}
         alt=""
         width={250}
         height={150}
