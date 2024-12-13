@@ -1,4 +1,4 @@
-import { axios, server, useState } from "../../imports";
+import { axios, server, useNavigate, useState } from "../../imports";
 import Loader from "../Loader";
 
 function PublishVideo() {
@@ -19,6 +19,8 @@ function PublishVideo() {
       };
     });
   }
+
+  const navigate = useNavigate();
 
   function handleFileChange(e) {
     const { name, files } = e.target;
@@ -53,7 +55,7 @@ function PublishVideo() {
       // setData(prevData => {
       //   return {...prevData,isRegistered:true}
       // })
-    setIsLoading(false)
+      setIsLoading(false)
       navigate("/user/videos");
     }
   }
