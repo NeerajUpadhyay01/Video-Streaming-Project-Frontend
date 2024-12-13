@@ -228,6 +228,7 @@ a {
 
 .Navbar #search-logo:hover {
   transform: scale(1.05);
+  box-shadow: none;
 }
 
 .Navbar #avatar {
@@ -608,7 +609,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(13px,3vw,15px);
+  font-size: clamp(13px, 3vw, 15px);
 }
 
 /* Home */
@@ -901,13 +902,14 @@ a {
   align-items: center;
   gap: 5px;
   font-weight: 600;
-  color: rgb(197, 195, 195);
+  color: white;
 }
 
 .playlist #playlist_no img {
   margin-top: 3px;
   width: 30px;
   height: 30px;
+  filter: contrast(2);
 }
 
 .playlist #playlist_name {
@@ -932,7 +934,7 @@ a {
   width: 25px;
   height: 25px;
   opacity: 0.8;
-  margin: 5px 3px;
+  margin: 1px 3px;
   align-self: start;
   cursor: pointer;
   /* &:hover {                 //different method to hover by using '&'
@@ -964,7 +966,7 @@ a {
 .video .details .video_operations {
   position: absolute;
   width: 190px;
-  height: 110px;
+  height: auto;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -975,14 +977,7 @@ a {
   visibility: hidden;
   opacity: 0;
   transition: all 0.15s ease-in-out;
-}
-
-.video .details .video_operations {
-  height: 130px;
-}
-
-.playlist .playlist_operations {
-  height: 90px;
+  padding: 5px 0;
 }
 
 .playlist .playlist_operations.active,
@@ -999,7 +994,7 @@ a {
   display: flex;
   gap: 15px;
   padding-right: 30px;
-  margin: 10px 0 0 30px;
+  margin: 5px 30px;
 }
 
 .playlist .playlist_operations p,
