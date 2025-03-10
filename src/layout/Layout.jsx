@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, axios, server } from "..imports.jsx";
+import { useState, useEffect, axios, server } from "../imports.jsx";
 import { Outlet } from "react-router-dom";
 
 function Layout() {
